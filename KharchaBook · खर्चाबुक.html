@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>KharchaBook · खर्चाबुक</title>
+<style>
+:root{--bg:#f3f6f5;--card:#fff;--hd:#0b6e4f;--tx:#14231d;--mu:#6b7d75;--bd:#dfe8e4;--gr:#13915f;--rd:#d23f3f;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#101815;--card:#18231f;--hd:#0f4a37;--tx:#eef6f2;--mu:#93a89f;--bd:#2a3a34;--gr:#3fcf90;--rd:#f07070;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#101815;--card:#18231f;--hd:#0f4a37;--tx:#eef6f2;--mu:#93a89f;--bd:#2a3a34;--gr:#3fcf90;--rd:#f07070;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:system-ui,-apple-system,"Noto Sans Devanagari","Segoe UI",Roboto,sans-serif;line-height:1.4}
+.wrap{max-width:520px;margin:0 auto;min-height:100vh;padding-bottom:20px}
+.hd{background:var(--hd);color:#fff;padding:12px 14px;display:flex;align-items:center;gap:8px}
+.hd b{flex:1;font-size:19px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hd button,.hd select{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.4);border-radius:8px;font:inherit;font-size:14px;padding:5px 8px}
+.hd select option{color:#000}
+.hd .ic{border:0;font-size:20px}
+.pad{padding:12px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:14px;margin-bottom:12px}
+.tot{display:grid;grid-template-columns:1fr 1fr;gap:10px;text-align:center}
+.tot small{color:var(--mu);display:block}
+.tot b{font-size:19px}
+.gr{color:var(--gr)}.rd{color:var(--rd)}
+input,select.f{font:inherit;color:var(--tx);background:var(--bg);border:1px solid var(--bd);border-radius:10px;padding:10px 12px;width:100%}
+.btn{font:inherit;border:0;border-radius:10px;padding:12px;font-weight:700;color:#fff;cursor:pointer}
+.b-gr{background:var(--gr)}.b-rd{background:var(--rd)}.b-hd{background:var(--hd)}.b-wa{background:#1fa855}
+.b-ln{background:transparent;color:var(--mu);border:1px solid var(--bd);font-weight:500}
+.pr{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:12px 0;border-bottom:1px solid var(--bd);cursor:pointer}
+.pr:last-child{border:0}
+.pr small{color:var(--mu);display:block}
+.pr .am{text-align:right;font-weight:700}
+.pr .am small{font-weight:400}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.f{display:grid;gap:8px;margin-top:10px}
+.tx{display:flex;justify-content:space-between;gap:8px;padding:10px 0;border-bottom:1px solid var(--bd)}
+.tx small{color:var(--mu);display:block}
+.tx button{background:none;border:0;color:var(--mu);cursor:pointer}
+.empty{color:var(--mu);text-align:center;padding:14px}
+.ad{min-height:90px;border:1px dashed var(--bd);border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--mu);font-size:12px;margin:0 12px 12px}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div id="home">
+  <div class="hd"><b id="t_app"></b>
+    <select id="cur" aria-label="Currency"></select>
+    <select id="lang" aria-label="Language"><option value="hi">हिन्दी</option><option value="en">English</option></select></div>
+  <div class="pad">
+    <div class="card"><div class="tot"><div><small id="t_get"></small><b class="gr" id="s_get"></b></div><div><small id="t_give"></small><b class="rd" id="s_give"></b></div></div></div>
+    <input id="q" type="search" style="margin-bottom:12px">
+    <div class="card" id="plist"></div>
+    <button class="btn b-hd" id="newp" style="width:100%"></button>
+    <div class="f" id="pform" hidden>
+      <input id="pn" maxlength="40"><input id="pp" type="tel" inputmode="tel" maxlength="15">
+      <button class="btn b-gr" id="pmk"></button>
+    </div>
+  </div>
+  <div class="ad"><!-- ADSENSE: yahan apna Google AdSense ad code paste karein --><span id="t_ad"></span></div>
+  <div class="pad" style="padding-top:0"><button class="btn b-ln" id="csv" style="width:100%" hidden></button></div>
+</div>
+
+<div id="party" hidden>
+  <div class="hd"><button class="ic" id="back" aria-label="Back">←</button><b id="pname"></b><button class="ic" id="pdel" aria-label="Delete">🗑</button></div>
+  <div class="pad">
+    <div class="card" style="text-align:center"><small id="t_bal" style="color:var(--mu)"></small><div style="font-size:28px;font-weight:800" id="pbal"></div>
+      <button class="btn b-wa" id="wa" style="margin-top:10px;width:100%"></button></div>
+    <div class="row"><button class="btn b-rd" id="bg"></button><button class="btn b-gr" id="br"></button></div>
+    <div class="f" id="tform" hidden>
+      <input id="ta" type="number" inputmode="decimal" min="0" step="any"><input id="tn" maxlength="60">
+      <button class="btn b-hd" id="tmk"></button>
+    </div>
+    <div class="card" style="margin-top:12px" id="tlist"></div>
+  </div>
+  <div class="ad"><!-- ADSENSE: dusra ad unit yahan --><span id="t_ad2"></span></div>
+</div>
+
+</div>
+<script>
+var T={hi:{app:"खर्चाबुक",get:"आपको मिलेंगे",give:"आपको देने हैं",srch:"पार्टी खोजें",newp:"+ नई पार्टी जोड़ें",pn:"पार्टी का नाम",pp:"फोन नंबर (वैकल्पिक)",mk:"सेव करें",none:"अभी कोई पार्टी नहीं",gave:"आपने दिया",got:"आपको मिला",amt:"रकम",note:"नोट (वैकल्पिक)",add:"जोड़ें",bal:"बाकी हिसाब",tg:"मिलेंगे",tr:"देने हैं",settled:"हिसाब बराबर",wa:"WhatsApp पर याद दिलाएं",ad:"विज्ञापन",csv:"CSV डाउनलोड",sure:"यह पार्टी और पूरा हिसाब हटाएं?",ntx:"कोई लेनदेन नहीं",
+rem:function(n,a){return "नमस्ते "+n+", आपके "+a+" बाकी हैं। कृपया जल्द भेज दें। धन्यवाद 🙏"}},
+en:{app:"KharchaBook",get:"You will get",give:"You will give",srch:"Search party",newp:"+ Add new party",pn:"Party name",pp:"Phone number (optional)",mk:"Save",none:"No parties yet",gave:"You gave",got:"You got",amt:"Amount",note:"Note (optional)",add:"Add",bal:"Balance",tg:"to get",tr:"to give",settled:"Settled",wa:"Remind on WhatsApp",ad:"Advertisement",csv:"Download CSV",sure:"Delete this party and all its entries?",ntx:"No entries",
+rem:function(n,a){return "Hello "+n+", "+a+" is pending from you. Please send it soon. Thank you 🙏"}}};
+var CUR=["INR","USD","EUR","GBP","AED","SAR","CAD","AUD","SGD","NPR","BDT","PKR"];
+var S={lang:"hi",cur:"INR",p:[]},cur=null,mode="g";
+function $(x){return document.getElementById(x)}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function ld(){try{var v=localStorage.getItem("kbook_v1");if(v){var o=JSON.parse(v);if(o&&o.p)S=o}}catch(e){}}
+function sv(){try{localStorage.setItem("kbook_v1",JSON.stringify(S))}catch(e){}}
+function fm(n){try{return new Intl.NumberFormat(S.lang==="hi"?"hi-IN":"en-IN",{style:"currency",currency:S.cur,maximumFractionDigits:2}).format(n)}catch(e){return S.cur+" "+n}}
+function bal(p){return p.tx.reduce(function(s,x){return s+(x.k==="g"?x.a:-x.a)},0)}
+function find(id){for(var i=0;i<S.p.length;i++)if(S.p[i].id===id)return S.p[i]}
+function dt(ts){try{return new Date(ts).toLocaleDateString(S.lang==="hi"?"hi-IN":"en-IN",{day:"numeric",month:"short",year:"numeric"})}catch(e){return""}}
+function lab(){var t=T[S.lang];document.documentElement.lang=S.lang;document.title=t.app;
+$("t_app").textContent=t.app;$("t_get").textContent=t.get;$("t_give").textContent=t.give;$("q").placeholder=t.srch;$("newp").textContent=t.newp;
+$("pn").placeholder=t.pn;$("pp").placeholder=t.pp;$("pmk").textContent=t.mk;$("t_ad").textContent=t.ad;$("t_ad2").textContent=t.ad;$("csv").textContent=t.csv;
+$("bg").textContent="↑ "+t.gave;$("br").textContent="↓ "+t.got;$("ta").placeholder=t.amt;$("tn").placeholder=t.note;$("tmk").textContent=t.add;$("t_bal").textContent=t.bal;$("wa").textContent="💬 "+t.wa;
+$("lang").value=S.lang;var h="";CUR.forEach(function(c){h+='<option value="'+c+'"'+(c===S.cur?" selected":"")+">"+c+"</option>"});$("cur").innerHTML=h}
+function rh(){var t=T[S.lang],g=0,r=0,q=$("q").value.trim().toLowerCase(),h="";
+S.p.forEach(function(p){var b=bal(p);if(b>0)g+=b;else r-=b});
+$("s_get").textContent=fm(g);$("s_give").textContent=fm(r);
+S.p.slice().sort(function(a,b){return Math.abs(bal(b))-Math.abs(bal(a))}).forEach(function(p){if(q&&p.n.toLowerCase().indexOf(q)<0)return;var b=bal(p);
+h+='<div class="pr" data-id="'+p.id+'"><div><b>'+esc(p.n)+"</b><small>"+esc(p.ph||"")+'</small></div><div class="am '+(b>0?"gr":b<0?"rd":"")+'">'+(b?fm(Math.abs(b)):"✓")+"<small>"+(b>0?t.tg:b<0?t.tr:t.settled)+"</small></div></div>"});
+$("plist").innerHTML=h||'<div class="empty">'+t.none+"</div>";$("csv").hidden=!(S.p.length&&window.__dl)}
+function rp(){var p=find(cur),t=T[S.lang];if(!p)return;var b=bal(p);$("pname").textContent=p.n;
+$("pbal").textContent=b?fm(Math.abs(b))+" "+(b>0?t.tg:t.tr):t.settled;$("pbal").className=b>0?"gr":b<0?"rd":"";
+$("wa").hidden=b<=0;var h="";
+p.tx.slice().reverse().forEach(function(x,i){var idx=p.tx.length-1-i;h+='<div class="tx"><div>'+(x.k==="g"?t.gave:t.got)+(x.n?" · "+esc(x.n):"")+"<small>"+dt(x.ts)+'</small></div><div style="display:flex;gap:8px;align-items:center"><b class="'+(x.k==="g"?"rd":"gr")+'">'+fm(x.a)+'</b><button data-d="'+idx+'" aria-label="Delete">✕</button></div></div>'});
+$("tlist").innerHTML=h||'<div class="empty">'+t.ntx+"</div>"}
+function go(id){cur=id;$("home").hidden=!!id;$("party").hidden=!id;$("tform").hidden=true;if(id)rp();else rh();window.scrollTo(0,0)}
+$("lang").onchange=function(){S.lang=this.value;sv();lab();cur?rp():rh()};
+$("cur").onchange=function(){S.cur=this.value;sv();cur?rp():rh()};
+$("q").oninput=rh;
+$("newp").onclick=function(){$("pform").hidden=!$("pform").hidden;$("pn").focus()};
+$("pmk").onclick=function(){var n=$("pn").value.trim();if(!n)return;S.p.push({id:"p"+Date.now(),n:n,ph:$("pp").value.replace(/[^\d+]/g,""),tx:[]});$("pn").value="";$("pp").value="";$("pform").hidden=true;sv();rh()};
+$("plist").onclick=function(e){var n=e.target.closest(".pr");if(n)go(n.getAttribute("data-id"))};
+$("back").onclick=function(){go(null)};
+$("pdel").onclick=function(){if(!confirm(T[S.lang].sure))return;S.p=S.p.filter(function(p){return p.id!==cur});sv();go(null)};
+function openF(m){mode=m;$("tform").hidden=false;$("ta").focus()}
+$("bg").onclick=function(){openF("g")};$("br").onclick=function(){openF("r")};
+$("tmk").onclick=function(){var a=parseFloat($("ta").value);if(!(a>0))return;find(cur).tx.push({k:mode,a:a,n:$("tn").value.trim(),ts:Date.now()});$("ta").value="";$("tn").value="";$("tform").hidden=true;sv();rp()};
+$("tlist").onclick=function(e){var d=e.target.getAttribute("data-d");if(d!==null){find(cur).tx.splice(+d,1);sv();rp()}};
+$("wa").onclick=function(){var p=find(cur),ph=(p.ph||"").replace(/\D/g,""),m=encodeURIComponent(T[S.lang].rem(p.n,fm(bal(p))));window.open("https://wa.me/"+ph+"?text="+m,"_blank")};
+$("csv").onclick=function(){claude.use("downloads").then(function(d){if(!d)return;var r=["party,phone,date,type,amount,currency,note"];
+S.p.forEach(function(p){p.tx.forEach(function(x){r.push(['"'+p.n.replace(/"/g,'""')+'"',p.ph,new Date(x.ts).toISOString().slice(0,10),x.k==="g"?"gave":"got",x.a,S.cur,'"'+(x.n||"").replace(/"/g,'""')+'"'].join(","))})});
+return d.save({filename:"kharchabook.csv",data:"\ufeff"+r.join("\n")})}).catch(function(){})};
+try{if(window.claude&&claude.use){claude.use("downloads").then(function(d){window.__dl=!!d;rh()}).catch(function(){})}}catch(e){}
+ld();lab();rh();
+</script>
+</body>
+</html>
